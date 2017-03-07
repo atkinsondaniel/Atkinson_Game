@@ -47,7 +47,6 @@ public class Atkinson_Game extends Application {
         EnemyShip enemy = new EnemyShip(canvas.getWidth() / 2, canvas.getHeight() / 8);
         enemy.setImage("enemy.png");
         PlayerShip player = new PlayerShip(100,700);
-        
         Rectangle purp = new Rectangle(100,100,412,412);
         purp.setFill(Color.PURPLE);
         Rectangle red = new Rectangle(512,100,412,412);
@@ -105,7 +104,8 @@ public class Atkinson_Game extends Application {
             }
         });
         
-       
+        RegBullet regBullet = new RegBullet(enemy.getX(),enemy.getY());
+        regBullet.setImage("regBullet.jpg");
         final long startNanoTime = System.nanoTime();
         new AnimationTimer() {
             public void handle(long currentNanoTime) {
@@ -116,6 +116,9 @@ public class Atkinson_Game extends Application {
                     gc.clearRect(0, 0, 1024,1024);
                     enemy.render(gc);
                     player.render(gc);
+                    regBullet.render(gc);
+                    regBullet.shoot(enemy.getX(), enemy.getY());
+                    
                 }
             }
         }.start();
