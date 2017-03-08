@@ -103,9 +103,7 @@ public class Atkinson_Game extends Application {
                 gameStart = true;
             }
         });
-        
-        RegBullet regBullet = new RegBullet(enemy.getX(),enemy.getY());
-        regBullet.setImage("regBullet.jpg");
+        BulletHandler handler = new BulletHandler(enemy);
         final long startNanoTime = System.nanoTime();
         new AnimationTimer() {
             public void handle(long currentNanoTime) {
@@ -116,9 +114,7 @@ public class Atkinson_Game extends Application {
                     gc.clearRect(0, 0, 1024,1024);
                     enemy.render(gc);
                     player.render(gc);
-                    regBullet.render(gc);
-                    regBullet.shoot(enemy.getX(), enemy.getY());
-                    
+                    handler.fire(gc, player, enemy, root);
                 }
             }
         }.start();
