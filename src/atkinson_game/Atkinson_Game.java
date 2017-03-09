@@ -60,7 +60,9 @@ public class Atkinson_Game extends Application {
         root.getChildren().add(red);
         root.getChildren().add(green);
         root.getChildren().add(blue);
-        
+        ArrayList<String> input = new ArrayList<>();
+        Image i = new Image("bg.jpg");
+        gc.drawImage(i, 0, 0);
         Font font = Font.font( "Helvetica", FontWeight.BOLD, 24 );
         gc.setFont( font );
         gc.setLineWidth(1);
@@ -68,8 +70,7 @@ public class Atkinson_Game extends Application {
         gc.setFill(Color.ORANGE);
         gc.fillText("What Color Spaceship?", 380, 50);
         gc.strokeText("What Color Spaceship?", 380, 50);
-        ArrayList<String> input = new ArrayList<>();
- 
+        
         scene.setOnKeyPressed((KeyEvent e) -> {
             String code = e.getCode().toString();
             
@@ -103,18 +104,23 @@ public class Atkinson_Game extends Application {
                 gameStart = true;
             }
         });
+        
         BulletHandler handler = new BulletHandler(enemy);
         final long startNanoTime = System.nanoTime();
         new AnimationTimer() {
             public void handle(long currentNanoTime) {
+                
                 if (gameStart) {
                     double t = (currentNanoTime - startNanoTime) / 1000000000.0;
+                    
                     player.move(input);
                     enemy.move(player.getX(), ((Math.random()-.5)*5));
                     gc.clearRect(0, 0, 1024,1024);
+                    gc.drawImage(i, 0, 0);
                     enemy.render(gc);
                     player.render(gc);
                     handler.fire(gc, player, enemy, root);
+                   
                 }
             }
         }.start();

@@ -26,16 +26,16 @@ public class PlayerShip extends Ship {
         int dX = 0;
         int dY = 0;
         if (input.contains("W")) {
-            dY -= 6;
+            dY -= 5;
         }
         if (input.contains("A")) {
-            dX -= 6;
+            dX -= 5;
         }
         if (input.contains("S")) {
-            dY += 6;
+            dY += 5;
         }
         if (input.contains("D")) {
-            dX += 6;
+            dX += 5;
         }
         super.move(dX,dY);
         if (getX() < 0){

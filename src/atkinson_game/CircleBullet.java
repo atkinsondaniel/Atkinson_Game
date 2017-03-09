@@ -44,7 +44,7 @@ public class CircleBullet extends Bullet{
     public void setAngle(double nAngle) {
         this.angle = nAngle;
     }
-    private double getAngle() {
+    public double getAngle() {
         return this.angle;
     }
     

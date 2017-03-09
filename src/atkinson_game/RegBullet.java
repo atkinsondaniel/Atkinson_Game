@@ -15,10 +15,11 @@ public class RegBullet extends Bullet {
     public RegBullet(double nX, double nY) {
         this.setX(nX);
         this.setY(nY);
+        setShooting(true);
     }
     public void shoot(double x, double y) {
         super.shoot(0,5);
-        if(getY() > 1024 - getHeight()) {
+        if(getY() > 900) {
             shooting = false;
             setX(x);
             setY(y);
