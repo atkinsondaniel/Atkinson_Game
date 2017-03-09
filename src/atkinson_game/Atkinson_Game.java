@@ -68,8 +68,11 @@ public class Atkinson_Game extends Application {
         gc.setLineWidth(1);
         gc.setStroke(Color.ORANGE);
         gc.setFill(Color.ORANGE);
-        gc.fillText("What Color Spaceship?", 380, 50);
-        gc.strokeText("What Color Spaceship?", 380, 50);
+        
+        gc.fillText("Dodge the Enemy Ship's Onslaught", 300, 40);
+        gc.strokeText("Dodge the Enemy Ship's Onslaught", 300, 40);
+        gc.fillText("What Color Spaceship Would You Like?", 260, 70);
+        gc.strokeText("What Color Spaceship Would You Like?", 260, 70);
         
         scene.setOnKeyPressed((KeyEvent e) -> {
             String code = e.getCode().toString();

@@ -19,9 +19,11 @@ public class BulletHandler {
     ArrayList<RegBullet> regBullets = new ArrayList<>();
     ArrayList<CircleBullet> circleBullets = new ArrayList<>();
     ArrayList<SpiralBullet> spiralBullets = new ArrayList<>();
+    ArrayList<WaveBullet> waveBullets = new ArrayList<>();
     int fireCounter = 1;
     boolean firstCircFire = false;
     boolean firstSpirFire = false;
+    boolean firstWaveFire = false;
 
     public BulletHandler(EnemyShip enemy) {
         buildBullets(enemy);
@@ -31,15 +33,18 @@ public class BulletHandler {
         if (fireCounter % 500 == 0) {
             firstCircFire = true;
         }
-        if (fireCounter % 1750 == 0) {
+        if (fireCounter % 1250 == 0) {
             firstSpirFire = true;
         }
-
+        if (fireCounter % 750 == 0) {
+            firstWaveFire = true;
+        }
         if(spiralsFiring()) 
             fireSpirals(gc, player, enemy, root);
         if(circlesFiring()) fireCircles(gc, player, enemy, root);
+        if(wavesFiring()) fireWaves(gc, player, enemy, root);
         fireRegs(gc, player, enemy, root);
-        gc.setStroke(Color.BLACK);
+        gc.setStroke(Color.WHITE);
         gc.strokeText("" + fireCounter, 100, 100);
         fireCounter++;
         collision(player);
@@ -112,9 +117,30 @@ public class BulletHandler {
         spiralBullets.add(spiral13);
         spiralBullets.add(spiral14);
         spiralBullets.add(spiral15);
+        WaveBullet wave1 = new WaveBullet(enemy.getX() + 40, enemy.getY() + 100);
+        WaveBullet wave2 = new WaveBullet(enemy.getX() + 40, enemy.getY() + 100);
+        WaveBullet wave3 = new WaveBullet(enemy.getX() + 40, enemy.getY() + 100);
+        WaveBullet wave4 = new WaveBullet(enemy.getX() + 40, enemy.getY() + 100);
+        WaveBullet wave5 = new WaveBullet(enemy.getX() + 40, enemy.getY() + 100);
+        WaveBullet wave6 = new WaveBullet(enemy.getX() + 40, enemy.getY() + 100);
+        WaveBullet wave7 = new WaveBullet(enemy.getX() + 40, enemy.getY() + 100);
+        WaveBullet wave8 = new WaveBullet(enemy.getX() + 40, enemy.getY() + 100);
+        WaveBullet wave9 = new WaveBullet(enemy.getX() + 40, enemy.getY() + 100);
+        WaveBullet wave10 = new WaveBullet(enemy.getX() + 40, enemy.getY() + 100);
+        waveBullets.add(wave1);
+        waveBullets.add(wave2);
+        waveBullets.add(wave3);
+        waveBullets.add(wave4);
+        waveBullets.add(wave5);
+        waveBullets.add(wave6);
+        waveBullets.add(wave7);
+        waveBullets.add(wave8);
+        waveBullets.add(wave9);
+        waveBullets.add(wave10);
         int frames = 0;
         double circAngle = 2 * Math.PI;
         double spirAngle = 2 * Math.PI;
+        double waveAngle = 0;
         for (RegBullet reg : regBullets) {
             reg.setImage("regBullet.png");
             reg.setFrames(frames);
@@ -129,6 +155,11 @@ public class BulletHandler {
             spir.setImage("spiralBullet.png");
             spir.setAngle(spirAngle);
             spirAngle -= Math.PI / 15 * 2;
+        }
+        for (WaveBullet wave : waveBullets) {
+            wave.setImage("waveBullet.png");
+            wave.setAngle(waveAngle);
+            waveAngle += Math.PI / 10 * 2;
         }
     }
 
@@ -173,6 +204,14 @@ public class BulletHandler {
                 }
             }
         }
+        for (WaveBullet wave : waveBullets) {
+            if (wave.isShooting()) {                
+                if (player.getHitBox().intersects(wave.getHitbox().getBoundsInLocal())) {
+                    Platform.exit();
+                    System.exit(0);
+                }
+            }
+        }
     }
 
     private void fireCircles(GraphicsContext gc, PlayerShip player, EnemyShip enemy, Group root) {
@@ -187,6 +226,20 @@ public class BulletHandler {
         circleBullets.forEach((circ) -> {
             circ.shoot();
             circ.render(gc);
+        });
+    }
+    private void fireWaves(GraphicsContext gc, PlayerShip player, EnemyShip enemy, Group root) {
+        if (firstWaveFire) {
+            firstWaveFire = false;
+            waveBullets.forEach((wave) -> {
+                wave.setX(enemy.getX() + 40);
+                wave.setY(enemy.getY() + 200);
+                wave.setShooting(true);
+            });
+        }
+        waveBullets.forEach((wave) -> {
+            wave.shoot();
+            wave.render(gc);
         });
     }
     private void fireSpirals(GraphicsContext gc, PlayerShip player, EnemyShip enemy, Group root) {
@@ -220,6 +273,15 @@ public class BulletHandler {
         boolean firing = false;
         for (SpiralBullet spir : spiralBullets) {
             if (spir.isShooting() || firstSpirFire) {
+                firing = true;
+            }
+        }
+        return firing;
+    }
+    private boolean wavesFiring() {
+        boolean firing = false;
+        for (WaveBullet wave : waveBullets) {
+            if (wave.isShooting() || firstWaveFire) {
                 firing = true;
             }
         }

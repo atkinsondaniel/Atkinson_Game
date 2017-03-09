@@ -22,10 +22,10 @@ public abstract class Bullet {
     private double height;
     private double width;
     private Circle hitbox;
-//    public void Bullet(double nX, double nY) {
-//        this.x = nX;
-//        this.y = nY;
-//    }
+    public void Bullet(double nX, double nY) {
+        this.x = nX;
+        this.y = nY;
+   }
     public void render (GraphicsContext gc) {
         gc.drawImage(image, x, y);       
         
