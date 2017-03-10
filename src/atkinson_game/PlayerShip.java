@@ -21,6 +21,7 @@ public class PlayerShip extends Ship {
     public void setColor(String fileName) {
 
         super.setImage(fileName);
+        Atkinson_Game.colorSelected = true;
     }
     public void move(ArrayList<String> input) {
         int dX = 0;

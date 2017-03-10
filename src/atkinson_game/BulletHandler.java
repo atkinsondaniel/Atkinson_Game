@@ -29,14 +29,14 @@ public class BulletHandler {
         buildBullets(enemy);
     }
 
-    public void fire(GraphicsContext gc, PlayerShip player, EnemyShip enemy, Group root) {
+    public boolean fire(GraphicsContext gc, PlayerShip player, EnemyShip enemy, Group root) {
         if (fireCounter % 500 == 0) {
             firstCircFire = true;
         }
-        if (fireCounter % 1250 == 0) {
+        if (fireCounter % 1750 == 0) {
             firstSpirFire = true;
         }
-        if (fireCounter % 750 == 0) {
+        if (fireCounter % 1250 == 0) {
             firstWaveFire = true;
         }
         if(spiralsFiring()) 
@@ -44,10 +44,8 @@ public class BulletHandler {
         if(circlesFiring()) fireCircles(gc, player, enemy, root);
         if(wavesFiring()) fireWaves(gc, player, enemy, root);
         fireRegs(gc, player, enemy, root);
-        gc.setStroke(Color.WHITE);
-        gc.strokeText("" + fireCounter, 100, 100);
         fireCounter++;
-        collision(player);
+        return !collision(player);
     }
 
     private void buildBullets(EnemyShip enemy) {
@@ -179,39 +177,37 @@ public class BulletHandler {
         });
     }
 
-    private void collision(PlayerShip player) {
+    private boolean collision(PlayerShip player) {
+        boolean hit = false;
         for (RegBullet reg : regBullets) {
             if (reg.isShooting()) {
                 if (player.getHitBox().intersects(reg.getHitbox().getBoundsInLocal())) {
-                    Platform.exit();
-                    System.exit(0);
+                    hit = true;
                 }
             }
         }
         for (CircleBullet circ : circleBullets) {
             if (circ.isShooting()) {
                 if (player.getHitBox().intersects(circ.getHitbox().getBoundsInLocal())) {
-                    Platform.exit();
-                    System.exit(0);
+                    hit = true;
                 }
             }
         }
         for (SpiralBullet spir : spiralBullets) {
             if (spir.isShooting()) {                
                 if (player.getHitBox().intersects(spir.getHitbox().getBoundsInLocal())) {
-                    Platform.exit();
-                    System.exit(0);
+                    hit = true;
                 }
             }
         }
         for (WaveBullet wave : waveBullets) {
             if (wave.isShooting()) {                
                 if (player.getHitBox().intersects(wave.getHitbox().getBoundsInLocal())) {
-                    Platform.exit();
-                    System.exit(0);
+                    hit = true;
                 }
             }
         }
+        return hit;
     }
 
     private void fireCircles(GraphicsContext gc, PlayerShip player, EnemyShip enemy, Group root) {
